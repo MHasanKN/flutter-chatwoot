@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Widget</title>
+</head>
+<body>
+  
+    <!-- Chatwoot Widget Code -->
+    <script>
+  (function(d, t) {
+    var BASE_URL = "https://app.chatwoot.com";
+    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+    g.src = BASE_URL + "/packs/js/sdk.js";
+    g.defer = true;
+    g.async = true;
+    s.parentNode.insertBefore(g, s);
+
+    window.addEventListener("chatwoot:ready", function() {
+      $email = 'user_email_replace';
+      $userName = 'user_name_replace';
+      $userId = 'user_id_replace';
+      console.log('Email is: ', $email )
+      // Now it's safe to use window.$chatwoot here
+      updateChatwootUserData($email, $userName, $userId);
+    });
+
+    g.onload = function() {
+      window.chatwootSDK.run({
+        websiteToken: 'kUKgEs7v1pcCaWq2XCRVgS4g',
+        baseUrl: BASE_URL
+      });
+    };
+  })(document, "script");
+
+  function updateChatwootUserData(userEmail, userName, userId) {
+    console.log('Attempting to set Chatwoot user data...');
+    if (window.$chatwoot && window.$chatwoot.setUser) {
+      console.log('Setting Chatwoot user data...');
+      window.$chatwoot.setUser(userId, {
+        email: userEmail,
+        name: userName,
+        // Any additional user details can be included here
+      });
+	  // Set custom attributes for the user
+      window.$chatwoot.setCustomAttributes({
+        profile_link: `https://example.com?userid=${userId}`
+      });
+	  // Set conversation specific items
+	  window.$chatwoot.setConversationCustomAttributes({
+		  issue: "Can not log in.",
+		  productCategory: "Mechano",
+		});
+    } else {
+      console.log('window.$chatwoot is not available yet.');
+    }
+  }
+</script>
+
+
+    <!-- /Chatwoot Widget Code -->
+
+    <!-- You can add more HTML content here if needed, such as a header or footer that explains the chat feature or provides additional navigation. -->
+</body>
+</html>
